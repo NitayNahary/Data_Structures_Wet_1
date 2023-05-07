@@ -1,6 +1,6 @@
 //
 // Created by user on 07/05/2023.
-//
+// and shachar
 
 #ifndef DATA_STRUCTURES_WET_1_GROUP_H
 #define DATA_STRUCTURES_WET_1_GROUP_H
