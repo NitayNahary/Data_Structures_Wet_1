@@ -18,18 +18,31 @@ public:
     int getMovieViews() const;
     bool isVipOnly() const;
     double getRating() const;
-
     void addRating(int rating);
+    void addWatch();
+    friend bool operator>(const Movie& movie1, const Movie& movie2);
+    friend bool operator==(const Movie& movie1, const Movie& movie2);
 
-private:
+        private:
     int m_movieId;
     Genre m_genre;
     int m_views;
     bool m_vipOnly;
     int m_rating;
+    int m_numOfReaters;
 };
 
-
-
+bool operator>=(const Movie& movie1, const Movie& movie2){
+    return ((movie1 > movie2) || (movie1 == movie2));
+}
+bool operator<(const Movie& movie1, const Movie& movie2){
+    return (!(movie1>=movie2));
+}
+bool operator<=(const Movie& movie1, const Movie& movie2){
+    return ((movie1 < movie2) || (movie1 == movie2));
+}
+bool operator!=(const Movie& movie1, const Movie& movie2){
+    return !(movie1 == movie2);
+}
 
 #endif //DATA_STRUCTURES_WET_1_MOVIE_H
