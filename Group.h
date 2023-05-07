@@ -20,6 +20,9 @@ public:
     int getGroupId() const;
 
 
+    bool isempty() const;
+    bool isVip() const;
+    Genre getFavoriteGenre() const;
 
 private:
     int m_GroupId;

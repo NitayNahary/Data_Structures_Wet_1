@@ -19,6 +19,7 @@ public:
     bool isVipOnly() const;
     double getRating() const;
 
+    void addRating(int rating);
 
 private:
     int m_movieId;

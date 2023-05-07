@@ -131,7 +131,7 @@ StatusType streaming_database::group_watch(int groupId,int movieId)
         return StatusType::INVALID_INPUT;
     }
     Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
-    Pair<Movie,int>* moviePair = findMovieByID(movieId);
+    Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
     if(!groupPair || !moviePair || groupPair->data().isempty() || (!groupPair->data().isVip() && moviePair->data().isVipOnly()))
         return StatusType::FAILURE;
     AVLTree<Movie, Movie>& genreTree = getGenreTree(moviePair->data());
@@ -148,7 +148,7 @@ output_t<int> streaming_database::get_all_movies_count(Genre genre)
 {
     AVLTree<Movie, Movie>& genreTree = getGenreTree(genre);
     if(genre == Genre::NONE)
-        return (m_fantasyMovieTreeByID.size() + m_dramaMovieTreeByID.size() + m_actionMovieTreeByID.size() + m_comedyMovieTreeByID.size());
+        return (m_fantasyMovies.size() + m_dramaMovies.size() + m_actionMovies.size() + m_comedyMovies.size());
     return genreTree.size();
 }
 
@@ -175,8 +175,8 @@ StatusType streaming_database::get_all_movies(Genre genre, int *const output)
     }
     try{
         int* result = new int[arr_size];
-        for(i = 0; i < arr_size; i++){
-            result[i] = pairArr[i]->data().getId();
+        for(int i = 0; i < arr_size; i++){
+            result[i] = pairArr[i]->data().getMovieId();
         }
         output = result;
     }catch(...){
@@ -202,7 +202,7 @@ StatusType streaming_database::rate_movie(int userId, int movieId, int rating)
     if(userId <= 0 || movieId <= 0 || (rating < 0 || rating > 100))
         return StatusType::INVALID_INPUT;
     Pair<User,int>* userPair = m_userTreeByID.find(userId);
-    Pair<Movie,int>* moviePair = m_moviesByID.find(movieIdId);
+    Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
     if(!userPair || !moviePair || (!userPair->data().isVip() && moviePair->data().isVipOnly()))
         return StatusType::FAILURE;
     moviePair->data().addRating(rating);
@@ -216,9 +216,9 @@ output_t<int> streaming_database::get_group_recommendation(int groupId)
     Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
     if(!groupPair)
         return StatusType::FAILURE;
-    Genre genre = groupPair->data().getFaavoriteGenre();
+    Genre genre = groupPair->data().getFavoriteGenre();
     AVLTree<Movie, Movie>& genreTree = getGenreTree(genre);
-    return genreTree.select(genreTree.size());
+    return genreTree.select(genreTree.size())->data().getMovieId();
 }
 
 

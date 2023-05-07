@@ -13,3 +13,15 @@ int Group::getGroupId() const {
     return m_GroupId;
 }
 
+bool Group::isempty() const{
+    return false;
+}
+
+bool Group::isVip() const{
+    return false;
+}
+
+Genre Group::getFavoriteGenre() const{
+    return Genre::COMEDY;
+}
+

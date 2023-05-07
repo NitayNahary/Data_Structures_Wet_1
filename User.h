@@ -5,6 +5,9 @@
 #ifndef DATA_STRUCTURES_WET_1_USER_H
 #define DATA_STRUCTURES_WET_1_USER_H
 
+#include "wet1util.h"
+#include "Movie.h"
+
 class User{
 
 public:
@@ -18,7 +21,7 @@ public:
     int getUserId() const;
     bool isVip() const;
     bool isInGroup() const;
-    int getNumOfViews() const;
+    int getNumOfViews(Genre genre) const;
 
 
 private:

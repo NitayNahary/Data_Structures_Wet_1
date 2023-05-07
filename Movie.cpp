@@ -28,3 +28,7 @@ double Movie::getRating() const {
     return m_rating/m_views;
 }
 
+void Movie::addRating(int rating) {
+
+}
+
