@@ -8,6 +8,13 @@
 #include "wet1util.h"
 #include "Movie.h"
 
+#define NONE 0
+#define COMEDY 1
+#define ACTION 2
+#define DRAMA 3
+#define FANTASY 4
+#define G 5
+
 class User{
 
 public:
@@ -21,15 +28,21 @@ public:
     int getUserId() const;
     bool isVip() const;
     bool isInGroup() const;
+    bool setGroup(Group* group);
+    int getAction() const;
+    int getFantasy() const;
+    int getDrama() const;
+    int getComedy() const;
     int getNumOfViews(Genre genre) const;
-
 
 private:
     int m_userId;
     bool m_isVip;
-    bool m_isInGroup;
-    int m_numOfViews;
-    int* m_genreHist;
+    Group* m_group;
+    int[G] m_watchHistory;
+    int[G] m_groupWatchHistory;
+
+    void removeGroup() friend Group;
 };
 
 

@@ -3,11 +3,11 @@
 
 AVLTree<Movie,Movie>& streaming_database::getGenreTree(const Movie& movie) {
     switch (movie.getMovieGenre()) {
-        case Genre::COMEDY:
+        case: Genre::COMEDY:
             return m_comedyMovies;
-        case Genre::ACTION:
+        case: Genre::ACTION:
             return m_actionMovies;
-        case Genre::DRAMA:
+        case: Genre::DRAMA:
             return m_dramaMovies;
         default:
             return m_fantasyMovies;
@@ -16,11 +16,11 @@ AVLTree<Movie,Movie>& streaming_database::getGenreTree(const Movie& movie) {
 
 AVLTree<Movie,Movie>& streaming_database::getGenreTree(const Genre genre) {
     switch (genre) {
-        case Genre::COMEDY:
+        case: Genre::COMEDY:
             return m_comedyMovies;
-        case Genre::ACTION:
+        case: Genre::ACTION:
             return m_actionMovies;
-        case Genre::DRAMA:
+        case: Genre::DRAMA:
             return m_dramaMovies;
         default:
             return m_fantasyMovies;
