@@ -4,8 +4,9 @@
 #include <cmath>
 #include "Pair.h"
 #include "wet1util.h"
-#ifndef AVL_MAP_H
-#define AVL_MAP_H
+#ifndef DATA_STRUCTURES_WET_1_AVL_MAP_H
+#define DATA_STRUCTURES_WET_1_AVL_MAP_H
+
 #define ERROR -1
 #define AVL_SON_NUM 2
 
@@ -595,4 +596,4 @@ AVLTree<T,K>* mergeTrees(const AVLTree<T,K>& avl1 ,const AVLTree<T,K>& avl2){
     delete[] destArr;
     return result;
 }
-#endif //AVL_MAP_H
+#endif //DATA_STRUCTURES_WET_1_AVL_MAP_H

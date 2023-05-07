@@ -1,8 +1,8 @@
 //
 // Created by nitay on 06/05/2023.
 //
-#ifndef PAIR_H
-#define PAIR_H
+#ifndef DATA_STRUCTURES_WET_1_Pair_H
+#define DATA_STRUCTURES_WET_1_Pair_H
 
 template<class T, class K>
 struct Pair{
@@ -24,4 +24,4 @@ public:
         return m_key;
     }
 };
-#endif //PAIR_H
+#endif //DATA_STRUCTURES_WET_1_Pair_H
