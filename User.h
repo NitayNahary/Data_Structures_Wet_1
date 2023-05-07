@@ -8,10 +8,12 @@
 class User{
 
 public:
-    User(int userId, bool isVip, bool isInGroup);
+    User(int userId, bool isVip);
     ~User() = default;
     User(const User& user) = default;
     User& operator=(const User& user) = default;
+
+    void watchMovie(Movie& movie);
 
     int getUserId() const;
     bool isVip() const;

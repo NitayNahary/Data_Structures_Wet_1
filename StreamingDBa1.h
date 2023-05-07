@@ -14,21 +14,34 @@
 
 #ifndef STREAMINGDBA1_H_
 #define STREAMINGDBA1_H_
-
+#include "AVL_MAP.h"
+#include "Movie.h"
+#include "AVL_MAP.h"
+#include "Group.h"
+#include "User.h"
 #include "wet1util.h"
 
 class streaming_database {
 private:
-    //
-    // Here you may add anything you want
-    //
+    AVLTree<Movie, int> m_moviesByID;
+    AVLTree<Movie, Movie> m_moviesByRating;
+    AVLTree<Movie, Movie> m_actionMovies;
+    AVLTree<Movie, Movie> m_comedyMovies;
+    AVLTree<Movie, Movie> m_dramaMovies;
+    AVLTree<Movie, Movie> m_fantasyMovies;
 
-public:
+    AVLTree<User, int> m_userTreeByID;
+    AVLTree<Group, int> m_groupTreeByID;
+
+    AVLTree<Movie,Movie>& getGenreTree(const Movie& movie);
+    AVLTree<Movie,Movie>& getGenreTree(const Genre genre);
+
+        public:
     // <DO-NOT-MODIFY> {
 
     streaming_database();
 
-    virtual ~streaming_database();
+    virtual ~streaming_database() = default;
 
     StatusType add_movie(int movieId, Genre genre, int views, bool vipOnly);
 

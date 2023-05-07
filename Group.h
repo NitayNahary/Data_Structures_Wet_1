@@ -15,6 +15,8 @@ public:
     Group(const Group& group) = default;
     Group& operator=(const Group& group) = default;
 
+    StatusType insert(User& user);
+    void watchMovie(Movie& movie);
     int getGroupId() const;
 
 

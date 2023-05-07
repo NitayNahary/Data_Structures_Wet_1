@@ -34,6 +34,7 @@ private:
         }
         return top;
     }
+
     int inOrderScanFullArrAUX(Node* root, Pair<T,K>** arr, int top) const{ ///should get an input function
         if(!root || top == ERROR){
             return top;
@@ -150,9 +151,6 @@ private:
 
     }
 
-    ///-----------------------------help function for delete----------------------------------------
-//    /// @brief help-function for destroyer of AVL_tree, works on post-order
-//    /// @param ptr
     void deleter(Node* ptr){
         if(!ptr) return;
 
@@ -162,7 +160,6 @@ private:
         delete ptr;
     }
 
-    ///get pointer to the head and pointer to the item we wanna find, make a recursive calls depend on the comparefunc of the tree, if didnt find / empty return nullptr.
     Node* findAUX(const K& item) const {
         if (empty())
             return nullptr;
@@ -188,6 +185,7 @@ private:
         //  destCopy->printOut();
         return destCopy;
     }
+
 public:
 
     AVLTree(): m_dummyHead(new Node()){}
@@ -195,10 +193,6 @@ public:
     virtual ~AVLTree(){
         deleter(m_dummyHead);
     }
-
-//    void deleteTree(){
-//        delete this;
-//    }
 
     AVLTree(const AVLTree& tree): m_dummyHead(new Node()){
         m_dummyHead->m_size = tree.m_dummyHead->m_size;
@@ -366,9 +360,6 @@ public:
         }
         return nullptr;
     }
-    /// @brief
-    /// @param start
-    /// @param updateRollsToRoot
 
     bool inOrderScanToArray(Pair<T,K>**& arr) const{ ///should get an input function
         if(arr) return false;

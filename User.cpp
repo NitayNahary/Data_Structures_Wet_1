@@ -4,8 +4,8 @@
 
 #include "User.h"
 
-User::User(int userId, bool isVip, bool isInGroup) : m_userId(userId), m_isVip(isVip)
-                                                                    , m_isInGroup(isInGroup){
+User::User(int userId, bool isVip, bool isInGroup) : m_userId(userId), m_isVip(isVip){
+    m_isInGroup = false;
     m_numOfViews = 0;
     m_genreHist = new int[5]();
 }
