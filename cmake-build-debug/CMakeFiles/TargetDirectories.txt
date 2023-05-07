@@ -1,3 +1,0 @@
-C:/Users/user/degree/semester_d/Data_Structures1/HW/Data Structures Wet 1/cmake-build-debug/CMakeFiles/Data_Structures_Wet_1.dir
-C:/Users/user/degree/semester_d/Data_Structures1/HW/Data Structures Wet 1/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/user/degree/semester_d/Data_Structures1/HW/Data Structures Wet 1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
