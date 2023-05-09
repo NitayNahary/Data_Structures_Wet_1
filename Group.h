@@ -7,7 +7,6 @@
 #include "wet1util.h"
 #include "AVL_MAP.h"
 #include "User.h"
-#define G 5
 class Group{
 
 public:
@@ -18,21 +17,20 @@ public:
 
     StatusType insert(User& user);
     void watchMovie(Movie& movie);
-    int getGroupId() const;
     void updateGWH(Genre genre);
 
+    int getGroupId() const;
     bool isEmpty() const;
     bool isVip() const;
     Genre getFavoriteGenre() const;
-    const int * getViewsAll() const;
+    const int * getAllViewsArr() const;
     int getViewsGenre(Genre genre) const;
-    bool isempty();
 
 private:
     int m_GroupId;
     AVLTree <User*,int> m_members;
-    int[G] m_watchHistory;
-    int[G] m_groupWatchHistory;
+    int m_watchHistory[G];
+    int m_groupWatchHistory[G];
     bool m_isVip;
 };
 

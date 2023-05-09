@@ -151,7 +151,7 @@ output_t<int> streaming_database::get_num_views(int userId, Genre genre)
     Pair<User,int>* userPair = m_userTreeByID.find(userId);
     if(!userPair)
         return StatusType::FAILURE;
-    return userPair->data().getViews(genre);
+    return userPair->data().getViewsGenre(genre);
 }
 
 StatusType streaming_database::rate_movie(int userId, int movieId, int rating)

@@ -3,7 +3,6 @@
 //
 
 #include "User.h"
-#include "Group.h"
 
 User::User(int userId, bool isVip) : m_userId(userId), m_isVip(isVip), m_group(nullptr), m_watchHistory(), m_groupWatchHistory(){
     for(int i = 0; i < G; i++){
@@ -23,7 +22,7 @@ bool User::isVip() const {
 bool User::setGroup(Group* group){
     if(isInGroup()) return false;
     m_group = group;
-    const int* groupViews = m_group->getViewsAll();
+    const int* groupViews = m_group->getAllViewsArr();
     for(int i = 0; i < (int)Genre::NONE; i++){
         m_groupWatchHistory[i] += groupViews[i];
     }
@@ -31,7 +30,7 @@ bool User::setGroup(Group* group){
 }
 
 void User::removeGroup(){
-    const int* groupViews = m_group->getViewsAll();
+    const int* groupViews = m_group->getAllViewsArr();
     for(int i = 0; i <= (int)Genre::NONE; i++){
         m_watchHistory[i] = m_watchHistory[i] + groupViews[i] - m_groupWatchHistory[i];
         m_groupWatchHistory[i] = 0;
@@ -43,14 +42,14 @@ bool User::isInGroup() const {
     return (m_group != nullptr);
 }
 
-int User::getViews(Genre genre) const {
+int User::getViewsGenre(Genre genre) const {
     int watchIndex = int(genre);
     if(!m_group)
         return m_watchHistory[watchIndex];
-    const int* groupViews = m_group->getViewsAll();
-    return m_watchHistory[watchIndex] + groupViews[watchIndex] - m_groupWatchHistory[watchIndex];
+    int groupViews = m_group->getViewsGenre(genre);
+    return m_watchHistory[watchIndex] + groupViews - m_groupWatchHistory[watchIndex];
 }
-const int* User::getAllGenreViews() const {
+const int* User::getAllViewsArr() const {
     return m_watchHistory;
 }
 
