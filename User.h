@@ -9,8 +9,6 @@
 #include "Movie.h"
 #include "Group.h"
 
-#define G 5
-
 class User{
 
 public:
@@ -25,11 +23,8 @@ public:
     bool isVip() const;
     bool isInGroup() const;
     bool setGroup(Group* group);
-    int getAction() const;
-    int getFantasy() const;
-    int getDrama() const;
-    int getComedy() const;
-    int getNumOfViews(Genre genre) const;
+    const int * getAllGenreViews() const;
+    int getViews(Genre genre) const;
 
 private:
     int m_userId;
@@ -37,7 +32,6 @@ private:
     Group* m_group;
     int[G] m_watchHistory;
     int[G] m_groupWatchHistory;
-
     void removeGroup() friend Group;
 };
 

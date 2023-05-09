@@ -23,13 +23,9 @@ public:
 
     bool isEmpty() const;
     bool isVip() const;
-    int getAction() const;
-    int getFantasy() const;
-    int getDrama() const;
-    int getComedy() const;
-    int getAll() const;
     Genre getFavoriteGenre() const;
-
+    const int * getViewsAll() const;
+    int getViewsGenre(Genre genre) const;
     bool isempty();
 
 private:

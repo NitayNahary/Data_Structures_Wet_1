@@ -14,6 +14,7 @@
 
 #ifndef STREAMINGDBA1_H_
 #define STREAMINGDBA1_H_
+#define G 5
 #include "AVL_MAP.h"
 #include "Movie.h"
 #include "AVL_MAP.h"
@@ -24,17 +25,9 @@
 class streaming_database {
 private:
     AVLTree<Movie, int> m_moviesByID;
-    AVLTree<Movie, Movie> m_moviesByRating;
-    AVLTree<Movie, Movie> m_actionMovies;
-    AVLTree<Movie, Movie> m_comedyMovies;
-    AVLTree<Movie, Movie> m_dramaMovies;
-    AVLTree<Movie, Movie> m_fantasyMovies;
-
+    AVLTree<Movie, Movie> m_genreMovies[G];
     AVLTree<User, int> m_userTreeByID;
     AVLTree<Group, int> m_groupTreeByID;
-
-    AVLTree<Movie,Movie>& getGenreTree(const Movie& movie);
-    AVLTree<Movie,Movie>& getGenreTree(const Genre genre);
 
         public:
     // <DO-NOT-MODIFY> {
