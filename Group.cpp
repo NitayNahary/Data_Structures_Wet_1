@@ -13,7 +13,7 @@ int Group::getGroupId() const {
     return m_GroupId;
 }
 
-bool Group::isempty() const{
+bool Group::isEmpty() const{
     return m_members.empty();
 }
 
@@ -24,10 +24,10 @@ StatusType Group::insert(User& user){
     StatusType result = m_members.insert(&user, user.getUserId());
     if(result != StatusType::SUCCESS)
         return result;
-    m_groupWatchHistory[COMEDY] += user.getComedy();
-    m_groupWatchHistory[ACTION] += user.getAction();
-    m_groupWatchHistory[DRAMA] += user.getDrama();
-    m_groupWatchHistory[FANTASY] += user.getFantasy();
+    const int* userViews = user.getAllGenreViews();
+    for(int i = 0; i < (int)Genre::NONE; i++){
+        m_groupWatchHistory[i] += userViews[i];
+    }
     return StatusType::SUCCESS;
 }
 
@@ -36,40 +36,26 @@ bool Group::isVip() const{
 }
 
 Genre Group::getFavoriteGenre() const{
-    int view_count = m_groupWatchHistory[COMEDY];
+    int view_count = m_groupWatchHistory[(int)Genre::COMEDY];
     Genre result = Genre::COMEDY;
-    if(view_count < m_groupWatchHistory[DRAMA]){
-        view_count = m_groupWatchHistory[DRAMA];
+    if(view_count < m_groupWatchHistory[(int)Genre::DRAMA]){
+        view_count = m_groupWatchHistory[(int)Genre::DRAMA];
         result = Genre::DRAMA;
     }
-    if(view_count < m_groupWatchHistory[ACTION]){
-        view_count = m_groupWatchHistory[ACTION];
+    if(view_count < m_groupWatchHistory[(int)Genre::ACTION]){
+        view_count = m_groupWatchHistory[(int)Genre::ACTION];
         result = Genre::ACTION;
     }
-    if(view_count < m_groupWatchHistory[FANTASY]){
-        view_count = m_groupWatchHistory[FANTASY];
+    if(view_count < m_groupWatchHistory[(int)Genre::FANTASY]){
+        view_count = m_groupWatchHistory[(int)Genre::FANTASY];
         result = Genre::FANTASY;
     }
     return result;
 }
 
 void Group::updateGWH(Genre genre){
-    switch (genre) {
-        case: Genre::COMEDY:
-            m_groupWatchHistory[COMEDY]++;
-            break;
-        case: Genre::ACTION:
-            m_groupWatchHistory[ACTION]++;
-            break;
-        case: Genre::DRAMA:
-            m_groupWatchHistory[DRAMA]++;
-            break;
-        case: Genre::FANTASY:
-            m_groupWatchHistory[FANTASY]++;
-            break;
-        default:
-            return;
-    }
+    m_groupWatchHistory[(int)genre]++;
+    m_groupWatchHistory[(int)Genre::NONE]++;
 }
 
 
