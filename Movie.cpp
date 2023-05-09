@@ -34,8 +34,8 @@ void Movie::addRating(int rating) {
     m_numOfReaters++;
 }
 
-void Movie::addWatch() {
-    m_views++;
+void Movie::addWatch(int numOfWatch) {
+    m_views += numOfWatch;
 }
 
 bool operator>(const Movie& movie1, const Movie& movie2){

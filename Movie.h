@@ -19,11 +19,11 @@ public:
     bool isVipOnly() const;
     double getRating() const;
     void addRating(int rating);
-    void addWatch();
+    void addWatch(int numOfWatch);
     friend bool operator>(const Movie& movie1, const Movie& movie2);
     friend bool operator==(const Movie& movie1, const Movie& movie2);
 
-        private:
+private:
     int m_movieId;
     Genre m_genre;
     int m_views;
