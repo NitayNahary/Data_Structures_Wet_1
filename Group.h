@@ -6,32 +6,26 @@
 #define DATA_STRUCTURES_WET_1_GROUP_H
 #include "wet1util.h"
 #include "AVL_MAP.h"
+#include "MovieWatcher.h"
 #include "User.h"
-class Group{
-
+class User;
+class Group : public MovieWatcher{
 public:
     Group(int groupId);
-    ~Group() = default;
+    virtual ~Group() override;
     Group(const Group& group) = default;
     Group& operator=(const Group& group) = default;
 
     StatusType insert(User& user);
-    void watchMovie(Movie& movie);
-    void updateGWH(Genre genre);
+    virtual void watchMovie(Movie& movie) override;
+    virtual void updateGWH(Genre genre);
 
-    int getGroupId() const;
-    bool isEmpty() const;
-    bool isVip() const;
-    Genre getFavoriteGenre() const;
-    const int * getAllViewsArr() const;
-    int getViewsGenre(Genre genre) const;
-
+    virtual Genre getFavoriteGenre() const;
+    virtual int getViewsGenre(Genre genre) const override;
+protected:
+    virtual void remove(MovieWatcher* toBeRemoved) override;
 private:
-    int m_GroupId;
     AVLTree <User*,int> m_members;
-    int m_watchHistory[G];
-    int m_groupWatchHistory[G];
-    bool m_isVip;
 };
 
 

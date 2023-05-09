@@ -103,7 +103,7 @@ StatusType streaming_database::group_watch(int groupId,int movieId)
     }
     Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
-    if(!groupPair || !moviePair || groupPair->data().isempty() || (!groupPair->data().isVip() && moviePair->data().isVipOnly()))
+    if(!groupPair || !moviePair || groupPair->data().isEmpty() || (!groupPair->data().isVip() && moviePair->data().isVipOnly()))
         return StatusType::FAILURE;
     int movieGenre = (int)moviePair->data().getMovieGenre();
     Movie movie = moviePair->data();

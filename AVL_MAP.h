@@ -488,9 +488,9 @@ private:
 //                          m_right->data() <<" (r_h: " <<m_right->m_height<<", r_s: "<< m_right->m_size <<
 //                          ") "<<std::endl <<"h: " <<m_height << ", s:" << m_size<< std::endl;
 //            }else if(m_right){
-//                std::cout << "right: " << m_right->data() << std::endl << "height: " <<m_height << ", size: " << m_size<< std::endl;
+//                std::cout << "right: " << m_right->data() << std::endl << "height: " <<m_height << ", m_size: " << m_size<< std::endl;
 //            }else{
-//                std::cout << "left: " << m_left->data() << std::endl << "height: " <<m_height << ", size: " << m_size<< std::endl;
+//                std::cout << "left: " << m_left->data() << std::endl << "height: " <<m_height << ", m_size: " << m_size<< std::endl;
 //            }
 //        }
 

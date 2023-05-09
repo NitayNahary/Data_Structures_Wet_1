@@ -3,7 +3,7 @@
 // Semester: 2023B (spring).
 // Wet Exercise #1.
 //
-// Recommended TAB size to view this file: 8.
+// Recommended TAB m_size to view this file: 8.
 //
 // The following header file contains all methods we expect you to implement.
 // You MAY add private methods and fields of your own.

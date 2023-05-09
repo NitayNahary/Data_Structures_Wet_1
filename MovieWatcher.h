@@ -7,29 +7,32 @@
 
 #include "wet1util.h"
 #include "Movie.h"
-#include "Group.h"
+#define G 5
 
 class MovieWatcher{
 public:
     MovieWatcher(int userId);
-    virtual ~MovieWatcher();
+    virtual ~MovieWatcher() = default;
     MovieWatcher(const MovieWatcher& movieWatcher) = default;
     MovieWatcher& operator=(const MovieWatcher& movieWatcher) = default;
 
     virtual void watchMovie(Movie& movie);
 
     virtual int getId() const;
-    virtual bool isVip() const = 0;
-    virtual const int * getAllViewsArr() const = 0;
+    bool isEmpty() const;
+    virtual bool isVip() const;
+    virtual const int * getAllViewsArr() const;
     virtual int getViewsGenre(Genre genre) const = 0;
+
 protected:
-    virtual void remove() = 0;
-private:
+    void remover(MovieWatcher* removeFrom, MovieWatcher* removeMe = nullptr);
+    virtual void remove(MovieWatcher* toBeRemoved) = 0;
+
     int m_Id;
     bool m_isVip;
     int m_watchHistory[G];
     int m_groupWatchHistory[G];
-    int size;
+    int m_size;
 };
 
 

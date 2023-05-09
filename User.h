@@ -4,35 +4,27 @@
 
 #ifndef DATA_STRUCTURES_WET_1_USER_H
 #define DATA_STRUCTURES_WET_1_USER_H
-#define G 5
 #include "wet1util.h"
-#include "Movie.h"
+#include "MovieWatcher.h"
 #include "Group.h"
-
-class User{
-
+class Group;
+class User : public MovieWatcher{
 public:
     User(int userId, bool isVip);
-    ~User() = default;
+    ~User() override;
     User(const User& user) = default;
     User& operator=(const User& user) = default;
 
-    void watchMovie(Movie& movie);
+    virtual void watchMovie(Movie& movie) override;
+
     bool setGroup(Group* group);
 
-    int getUserId() const;
-    bool isVip() const;
     bool isInGroup() const;
-    const int * getAllViewsArr() const;
-    int getViewsGenre(Genre genre) const;
-
+    int getViewsGenre(Genre genre) const override;
+protected:
+    virtual void remove(MovieWatcher* toBeRemoved) override;
 private:
-    int m_userId;
-    bool m_isVip;
     Group* m_group;
-    int m_watchHistory[G];
-    int m_groupWatchHistory[G];
-    void removeGroup() friend Group;
 };
 
 
