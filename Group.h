@@ -30,6 +30,8 @@ public:
     int getAll() const;
     Genre getFavoriteGenre() const;
 
+    bool isempty();
+
 private:
     int m_GroupId;
     AVLTree <User*,int> m_members;

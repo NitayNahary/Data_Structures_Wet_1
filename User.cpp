@@ -3,6 +3,7 @@
 //
 
 #include "User.h"
+#include "Group.h"
 
 User::User(int userId, bool isVip) : m_userId(userId), m_isVip(isVip), m_group(nullptr), m_watchHistory(), m_groupWatchHistory(){
     for(int i = 0; i < G; i++){
@@ -20,22 +21,22 @@ bool User::isVip() const {
 }
 
 bool User::setGroup(Group* group){
-    if(isInGroup) return false;
+    if(isInGroup()) return false;
     m_group = group;
-    m_groupWatchHistory[COMEDY] = group.getComedy();
-    m_groupWatchHistory[ACTION] = group.getAction();
-    m_groupWatchHistory[DRAMA] = group.getDrama();
-    m_groupWatchHistory[FANTASY] = group.getFantasy();
-    m_groupWatchHistory[NONE] = group.getAll();
-    return;
+    m_groupWatchHistory[(int)Genre::COMEDY] = group->getComedy();
+    m_groupWatchHistory[(int)Genre::ACTION] = group->getAction();
+    m_groupWatchHistory[(int)Genre::DRAMA] = group->getDrama();
+    m_groupWatchHistory[(int)Genre::FANTASY] = group->getFantasy();
+    m_groupWatchHistory[(int)Genre::NONE] = group->getAll();
+    return true;
 }
 
 void User::removeGroup(){
-    m_watchHistory[COMEDY] = getNumOfViews(Genre::COMEDY);
-    m_watchHistory[DRAMA] = getNumOfViews(Genre::DRAMA);
-    m_watchHistory[ACTION] = getNumOfViews(Genre::ACTION);
-    m_watchHistory[FANTASY] = getNumOfViews(Genre::FANTASY);
-    m_watchHistory[NONE] = getNumOfViews(Genre::NONE);
+    m_watchHistory[(int)Genre::COMEDY] = getNumOfViews(Genre::COMEDY);
+    m_watchHistory[(int)Genre::DRAMA] = getNumOfViews(Genre::DRAMA);
+    m_watchHistory[(int)Genre::ACTION] = getNumOfViews(Genre::ACTION);
+    m_watchHistory[(int)Genre::FANTASY] = getNumOfViews(Genre::FANTASY);
+    m_watchHistory[(int)Genre::NONE] = getNumOfViews(Genre::NONE);
     for(int i = 0; i < G; i++){
         m_groupWatchHistory[i] = 0;
     }
@@ -49,34 +50,34 @@ bool User::isInGroup() const {
 int User::getNumOfViews(Genre genre) const {
     int watchSum = 0;
     switch (genre) {
-        case: Genre::COMEDY:
-            watchSum += m_watchHistory[COMEDY];
+        case Genre::COMEDY:
+            watchSum += m_watchHistory[(int)Genre::COMEDY];
             if(m_group){
-                watchSum += m_group->getComedy() - m_groupWatchHistory[COMEDY];
+                watchSum += m_group->getComedy() - m_groupWatchHistory[(int)Genre::COMEDY];
             }
             break;
-        case: Genre::ACTION:
-            watchSum += m_watchHistory[ACTION];
+        case Genre::ACTION:
+            watchSum += m_watchHistory[(int)Genre::ACTION];
             if(m_group){
-                watchSum += m_group->getAction() - m_groupWatchHistory[ACTION];
+                watchSum += m_group->getAction() - m_groupWatchHistory[(int)Genre::ACTION];
             }
             break;
-        case: Genre::DRAMA:
-            watchSum += m_watchHistory[DRAMA];
+        case Genre::DRAMA:
+            watchSum += m_watchHistory[(int)Genre::DRAMA];
             if(m_group){
-                watchSum += m_group->getDrama() - m_groupWatchHistory[DRAMA];
+                watchSum += m_group->getDrama() - m_groupWatchHistory[(int)Genre::DRAMA];
             }
             break;
-        case: Genre::FANTASY:
-            watchSum += m_watchHistory[FANTASY];
+        case Genre::FANTASY:
+            watchSum += m_watchHistory[(int)Genre::FANTASY];
             if(m_group){
-                watchSum += m_group->getFantasy() - m_groupWatchHistory[FANTASY];
+                watchSum += m_group->getFantasy() - m_groupWatchHistory[(int)Genre::FANTASY];
             }
             break;
         default:
-            watchSum += m_watchHistory[NONE];
+            watchSum += m_watchHistory[(int)Genre::NONE];
             if(m_group){
-                watchSum += m_group->getAll() - m_groupWatchHistory[NONE];
+                watchSum += m_group->getAll() - m_groupWatchHistory[(int)Genre::NONE];
             }
             break;
     }
@@ -86,22 +87,22 @@ int User::getNumOfViews(Genre genre) const {
 void User::watchMovie(Movie& movie){
     movie.addWatch();
     switch (movie.getMovieGenre()) {
-        case: Genre::COMEDY:
-            m_watchHistory[COMEDY]++;
+        case Genre::COMEDY:
+            m_watchHistory[(int)Genre::COMEDY]++;
             break;
-        case: Genre::ACTION:
-            m_watchHistory[ACTION]++;
+        case Genre::ACTION:
+            m_watchHistory[(int)Genre::ACTION]++;
             break;
-        case: Genre::DRAMA:
-            m_watchHistory[DRAMA]++;
+        case Genre::DRAMA:
+            m_watchHistory[(int)Genre::DRAMA]++;
             break;
-        case: Genre::FANTASY:
-            m_watchHistory[FANTASY]++;
+        case Genre::FANTASY:
+            m_watchHistory[(int)Genre::FANTASY]++;
             break;
         default:
             return;
     }
-    m_watchHistory[NONE]++;
+    m_watchHistory[(int)Genre::NONE]++;
     if(m_group)
-        m_group.updateGWH(movie.getMovieGenre());
+        m_group->updateGWH(movie.getMovieGenre());
 }

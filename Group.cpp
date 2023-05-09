@@ -16,6 +16,8 @@ int Group::getGroupId() const {
 bool Group::isempty() const{
     return m_members.empty();
 }
+
+
 StatusType Group::insert(User& user){
     if(!user.setGroup(this))
         return StatusType::FAILURE;
@@ -69,3 +71,5 @@ void Group::updateGWH(Genre genre){
             return;
     }
 }
+
+

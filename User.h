@@ -7,12 +7,8 @@
 
 #include "wet1util.h"
 #include "Movie.h"
+#include "Group.h"
 
-#define NONE 0
-#define COMEDY 1
-#define ACTION 2
-#define DRAMA 3
-#define FANTASY 4
 #define G 5
 
 class User{
