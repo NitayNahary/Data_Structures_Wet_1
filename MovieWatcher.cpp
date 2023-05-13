@@ -5,7 +5,7 @@
 #include "MovieWatcher.h"
 
 MovieWatcher::MovieWatcher(int userId) : m_Id(userId), m_isVip(false), m_watchHistory(), m_groupWatchHistory(), m_size(0){
-    for(int i = 0; i < G; i++){
+    for(int i = 0; i < NUM_OF_GENRE; i++){
         m_watchHistory[i] = 0;
         m_groupWatchHistory[i] = 0;
     }
@@ -36,8 +36,8 @@ void MovieWatcher::watchMovie(Movie &movie) {
     m_watchHistory[(int)Genre::NONE]++;
 }
 
-void MovieWatcher::remover(MovieWatcher *removeFrom, MovieWatcher *removeMe) {
-    removeFrom->remove(removeMe);
+StatusType MovieWatcher::remover(MovieWatcher *removeFrom, MovieWatcher *removeMe) {
+    return removeFrom->remove(removeMe);
 }
 
 

@@ -13,18 +13,20 @@ class User;
 class Group : public MovieWatcher{
 public:
     Group(int groupId);
-    virtual ~Group() override;
+    virtual ~Group() override = default;
     Group(const Group& group) = default;
     Group& operator=(const Group& group) = default;
 
     StatusType insert(User& user);
     virtual void watchMovie(Movie& movie) override;
-    virtual void updateGWH(Genre genre);
+    virtual void updateGroup(Genre genre);
 
     virtual Genre getFavoriteGenre() const;
     virtual int getViewsGenre(Genre genre) const override;
+    StatusType deleteGroup();
+
 protected:
-    virtual void remove(MovieWatcher* toBeRemoved) override;
+    virtual StatusType remove(MovieWatcher* toBeRemoved) override;
 private:
     AVLTree <User*,int> m_members;
 };

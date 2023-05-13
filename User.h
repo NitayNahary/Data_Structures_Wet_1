@@ -18,11 +18,11 @@ public:
     virtual void watchMovie(Movie& movie) override;
 
     bool setGroup(Group* group);
-
+    const int * getAndUpdateAllViews();
     bool isInGroup() const;
     int getViewsGenre(Genre genre) const override;
 protected:
-    virtual void remove(MovieWatcher* toBeRemoved) override;
+    virtual StatusType remove(MovieWatcher* toBeRemoved) override;
 private:
     Group* m_group;
 };

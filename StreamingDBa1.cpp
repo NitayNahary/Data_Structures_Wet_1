@@ -65,6 +65,9 @@ StatusType streaming_database::remove_group(int groupId)
 {
     if(groupId <= 0)
         return StatusType::INVALID_INPUT;
+    StatusType res = m_groupTreeByID.find(groupId)->data().deleteGroup();
+    if(res != StatusType::SUCCESS)
+        return res;
     return m_groupTreeByID.remove(groupId);
 }
 
@@ -91,11 +94,17 @@ StatusType streaming_database::user_watch(int userId, int movieId)
     Movie movie = moviePair->data();
     int movieGenre = (int)moviePair->data().getMovieGenre();
     userPair->data().watchMovie(moviePair->data());
-    m_genreMovies[movieGenre].remove(movie);
-    m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
-    m_genreMovies[(int)Genre::NONE].remove(movie);
-    m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
-    return StatusType::SUCCESS;
+    StatusType resFlag;
+    resFlag = m_genreMovies[movieGenre].remove(movie);
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    resFlag =m_genreMovies[(int)Genre::NONE].remove(movie);
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
 StatusType streaming_database::group_watch(int groupId,int movieId)
@@ -110,11 +119,17 @@ StatusType streaming_database::group_watch(int groupId,int movieId)
     int movieGenre = (int)moviePair->data().getMovieGenre();
     Movie movie = moviePair->data();
     groupPair->data().watchMovie(moviePair->data());
-    m_genreMovies[movieGenre].remove(movie);
-    m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
-    m_genreMovies[(int)Genre::NONE].remove(movie);
-    m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
-    return StatusType::SUCCESS;
+    StatusType resFlag;
+    resFlag = m_genreMovies[movieGenre].remove(movie);
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    resFlag = m_genreMovies[(int)Genre::NONE].remove(movie);
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
 output_t<int> streaming_database::get_all_movies_count(Genre genre)

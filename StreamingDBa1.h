@@ -25,7 +25,7 @@
 class streaming_database {
 private:
     AVLTree<Movie, int> m_moviesByID;
-    AVLTree<Movie, Movie> m_genreMovies[G];
+    AVLTree<Movie, Movie> m_genreMovies[NUM_OF_GENRE];
     AVLTree<User, int> m_userTreeByID;
     AVLTree<Group, int> m_groupTreeByID;
 

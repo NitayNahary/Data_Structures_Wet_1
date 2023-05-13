@@ -7,7 +7,7 @@
 
 #include "wet1util.h"
 #include "Movie.h"
-#define G 5
+#define NUM_OF_GENRE 5
 
 class MovieWatcher{
 public:
@@ -25,13 +25,13 @@ public:
     virtual int getViewsGenre(Genre genre) const = 0;
 
 protected:
-    void remover(MovieWatcher* removeFrom, MovieWatcher* removeMe = nullptr);
-    virtual void remove(MovieWatcher* toBeRemoved) = 0;
+    StatusType remover(MovieWatcher* removeFrom, MovieWatcher* removeMe = nullptr);
+    virtual StatusType remove(MovieWatcher* toBeRemoved) = 0;
 
     int m_Id;
     bool m_isVip;
-    int m_watchHistory[G];
-    int m_groupWatchHistory[G];
+    int m_watchHistory[NUM_OF_GENRE];
+    int m_groupWatchHistory[NUM_OF_GENRE];
     int m_size;
 };
 

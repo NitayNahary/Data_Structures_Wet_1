@@ -35,13 +35,12 @@ Genre Group::getFavoriteGenre() const{
         result = Genre::ACTION;
     }
     if(view_count < m_groupWatchHistory[(int)Genre::FANTASY]){
-        view_count = m_groupWatchHistory[(int)Genre::FANTASY];
         result = Genre::FANTASY;
     }
     return result;
 }
 
-void Group::updateGWH(Genre genre){
+void Group::updateGroup(Genre genre){
     m_groupWatchHistory[(int)genre]++;
     m_groupWatchHistory[(int)Genre::NONE]++;
 }
@@ -55,36 +54,33 @@ void Group::watchMovie(Movie &movie) {
 int Group::getViewsGenre(Genre genre) const {
     return m_watchHistory[(int)genre];
 }
-Group::~Group() {
+StatusType Group::deleteGroup(){
     if(m_size == 0)
-        return;
+        return StatusType::SUCCESS;
     Pair<User*, int>** userArr = nullptr;
     if(!m_members.inOrderScanToArray(userArr))
-        throw std::bad_alloc();
-    MovieWatcher* base_ptr_user;
-    for(int i = 0; i< m_size; i++){
-        base_ptr_user = userArr[i]->data();
-        remover(base_ptr_user);
+        return StatusType::ALLOCATION_ERROR;
+    StatusType flag = StatusType::SUCCESS;
+    for(int i = 0; i< m_size && flag == StatusType::SUCCESS; i++){
+        flag = remove(userArr[i]->data());
     }
     delete[] userArr;
+    return flag;
 }
 
-/// FIX HERE USER GET ALL VIEWS NEEDS NEW LOGIC
-
-void Group::remove(MovieWatcher *toBeRemoved) {
-    const int userComedyViews = m_members.find(toBeRemoved->getId())->data()->getViewsGenre(Genre::COMEDY);
-    const int userActionViews = m_members.find(toBeRemoved->getId())->data()->getViewsGenre(Genre::ACTION);
-    const int userDramaViews = m_members.find(toBeRemoved->getId())->data()->getViewsGenre(Genre::DRAMA);
-    const int userFantasyViews = m_members.find(toBeRemoved->getId())->data()->getViewsGenre(Genre::FANTASY);
-    const int userAllViews = m_members.find(toBeRemoved->getId())->data()->getViewsGenre(Genre::NONE);
-
-    m_members.remove(toBeRemoved->getId());
-
-    m_groupWatchHistory[(int)Genre::COMEDY] -= userComedyViews;
-    m_groupWatchHistory[(int)Genre::ACTION] -= userActionViews;
-    m_groupWatchHistory[(int)Genre::DRAMA] -= userDramaViews;
-    m_groupWatchHistory[(int)Genre::FANTASY] -= userFantasyViews;
-    m_groupWatchHistory[(int)Genre::NONE] -= userAllViews;
+StatusType Group::remove(MovieWatcher *toBeRemoved) {
+    User* user = dynamic_cast<User*>(toBeRemoved);
+    if(!user)
+        return StatusType::FAILURE;
+    const int * userViews = user->getAndUpdateAllViews();
+    StatusType flag;
+    flag = m_members.remove(user->getId());
+    if(flag != StatusType::SUCCESS)
+        return flag;
+    for(int i = 0; i < NUM_OF_GENRE; i++){
+        m_groupWatchHistory[i] -= userViews[i];
+    }
+    return remover(toBeRemoved);
 }
 
 
