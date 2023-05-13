@@ -9,16 +9,18 @@ StatusType streaming_database::add_movie(int movieId, Genre genre, int views, bo
         return StatusType::INVALID_INPUT;
     Movie movie = Movie(movieId,genre,views,vipOnly);
     StatusType flag = m_moviesByID.insert(movie,movieId);
+    if(flag != StatusType::SUCCESS)
+        return flag;
+    flag = m_genreMovies[(int)genre].insert(movie, movie);
     if(flag == StatusType::SUCCESS){
-        flag = m_genreMovies[(int)genre].insert(movie, movie);
-        if(flag == StatusType::SUCCESS){
-            flag = m_genreMovies[(int)Genre::NONE].insert(movie, movie);
-            if(flag == StatusType::SUCCESS)
-                return StatusType::SUCCESS;
+        flag = m_genreMovies[(int)Genre::NONE].insert(movie, movie);
+        if(flag != StatusType::SUCCESS){
             m_genreMovies[(int)genre].remove(movie);
         }
+    }else{
         m_moviesByID.remove(movieId);
     }
+    return StatusType::SUCCESS;
 }
 
 StatusType streaming_database::remove_movie(int movieId)

@@ -8,6 +8,7 @@
 #include "AVL_MAP.h"
 #include "MovieWatcher.h"
 #include "User.h"
+
 class User;
 class Group : public MovieWatcher{
 public:

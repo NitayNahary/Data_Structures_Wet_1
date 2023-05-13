@@ -32,17 +32,17 @@ private:
     int m_numOfReaters;
 };
 
-bool operator>=(const Movie& movie1, const Movie& movie2){
+
+static bool operator>=(const Movie& movie1, const Movie& movie2){
     return ((movie1 > movie2) || (movie1 == movie2));
 }
-bool operator<(const Movie& movie1, const Movie& movie2){
+static bool operator<(const Movie& movie1, const Movie& movie2){
     return (!(movie1>=movie2));
 }
-bool operator<=(const Movie& movie1, const Movie& movie2){
+static bool operator<=(const Movie& movie1, const Movie& movie2){
     return ((movie1 < movie2) || (movie1 == movie2));
 }
-bool operator!=(const Movie& movie1, const Movie& movie2){
+static bool operator!=(const Movie& movie1, const Movie& movie2){
     return !(movie1 == movie2);
 }
-
 #endif //DATA_STRUCTURES_WET_1_MOVIE_H
