@@ -40,7 +40,7 @@ Genre Group::getFavoriteGenre() const{
     return result;
 }
 
-void Group::updateGroup(Genre genre){
+void Group::updateGroupGenre(Genre genre){
     m_groupWatchHistory[(int)genre]++;
     m_groupWatchHistory[(int)Genre::NONE]++;
 }
@@ -69,18 +69,23 @@ StatusType Group::deleteGroup(){
 }
 
 StatusType Group::remove(MovieWatcher *toBeRemoved) {
-    User* user = dynamic_cast<User*>(toBeRemoved);
-    if(!user)
-        return StatusType::FAILURE;
-    const int * userViews = user->getAndUpdateAllViews();
     StatusType flag;
-    flag = m_members.remove(user->getId());
+    flag = remover(toBeRemoved);
     if(flag != StatusType::SUCCESS)
         return flag;
-    for(int i = 0; i < NUM_OF_GENRE; i++){
+    flag = m_members.remove(toBeRemoved->getId());
+    if(flag != StatusType::SUCCESS)
+        return flag;
+    const int* userViews = toBeRemoved->getAllViewsArr();
+    for(int i = 0; i < NUM_OF_GENRE; i++) {
         m_groupWatchHistory[i] -= userViews[i];
     }
-    return remover(toBeRemoved);
+    m_size--;
+    return flag;
+}
+
+Group::~Group() {
+    deleteGroup();
 }
 
 

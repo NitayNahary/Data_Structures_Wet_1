@@ -39,14 +39,14 @@ void Movie::addWatch(int numOfWatch) {
 }
 
 bool operator>(const Movie& movie1, const Movie& movie2){
-    if(movie1.getRating() > movie2.getRating())
+    if(movie1.getRating() < movie2.getRating())
         return true;
-    else if(movie1.getRating() < movie2.getRating())
+    else if(movie1.getRating() > movie2.getRating())
         return false;
     else{
-        if(movie1.getMovieViews() > movie2.getMovieViews())
+        if(movie1.getMovieViews() < movie2.getMovieViews())
             return true;
-        else if(movie1.getMovieViews() < movie2.getMovieViews())
+        else if(movie1.getMovieViews() > movie2.getMovieViews())
             return false;
         else{
             if(movie1.m_movieId > movie2.m_movieId)

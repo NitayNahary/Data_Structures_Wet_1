@@ -363,6 +363,8 @@ public:
 
     bool inOrderScanToArray(Pair<T,K>**& arr) const{ ///should get an input function
         if(arr) return false;
+        if(empty())
+            return false;
         try{
             arr = new Pair<T, K> *[size()]();
         }catch (std::bad_alloc& a){

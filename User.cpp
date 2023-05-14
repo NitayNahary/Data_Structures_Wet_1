@@ -45,16 +45,19 @@ const int * User::getAndUpdateAllViews(){
 void User::watchMovie(Movie& movie){
     MovieWatcher::watchMovie(movie);
     if(m_group)
-        m_group->updateGroup(movie.getMovieGenre());
+        m_group->updateGroupGenre(movie.getMovieGenre());
 }
 
 User::~User() {
-    remover(m_group, this);
+    if(m_group)
+        remover(m_group, this);
 }
 
 StatusType User::remove(MovieWatcher* toBeRemoved){
-    for(int & i : m_groupWatchHistory){
-        i = 0;
+    const int * groupViews = m_group->getAllViewsArr();
+    for(int i = 0; i < NUM_OF_GENRE; i++) {
+        m_watchHistory[i] = m_watchHistory[i] + groupViews[i] - m_groupWatchHistory[i];
+        m_groupWatchHistory[i] = 0;
     }
     m_group = nullptr;
     return StatusType::SUCCESS;

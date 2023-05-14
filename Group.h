@@ -13,13 +13,13 @@ class User;
 class Group : public MovieWatcher{
 public:
     Group(int groupId);
-    virtual ~Group() override = default;
+    virtual ~Group() override;
     Group(const Group& group) = default;
     Group& operator=(const Group& group) = default;
 
     StatusType insert(User& user);
     virtual void watchMovie(Movie& movie) override;
-    virtual void updateGroup(Genre genre);
+    virtual void updateGroupGenre(Genre genre);
 
     virtual Genre getFavoriteGenre() const;
     virtual int getViewsGenre(Genre genre) const override;

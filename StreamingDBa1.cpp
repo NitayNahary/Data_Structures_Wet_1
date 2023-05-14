@@ -29,7 +29,7 @@ StatusType streaming_database::remove_movie(int movieId)
     if(movieId <= 0)
         return StatusType::INVALID_INPUT;
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
-    if(moviePair)
+    if(!moviePair)
         return StatusType::FAILURE;
     StatusType flag =  m_genreMovies[(int)Genre::NONE].remove(moviePair->data());
     if(flag != StatusType::SUCCESS)
@@ -147,15 +147,8 @@ StatusType streaming_database::get_all_movies(Genre genre, int *const output)
         return StatusType::FAILURE;
     if(!m_genreMovies[(int)genre].inOrderScanToArray(pairArr))
         return StatusType::ALLOCATION_ERROR;
-    try{
-        int* result = new int[arr_size];
-        for(int i = 0; i < arr_size; i++){
-            result[i] = pairArr[i]->data().getMovieId();
-        }
-    //    output = result;
-    }catch(...){
-        delete[] pairArr;
-        return StatusType::ALLOCATION_ERROR;
+    for(int i = 0; i < arr_size; i++){
+        output[i] = pairArr[i]->data().getMovieId();
     }
     delete[] pairArr;
     return StatusType::SUCCESS;
@@ -188,10 +181,10 @@ output_t<int> streaming_database::get_group_recommendation(int groupId)
     if(groupId <= 0)
         return StatusType::INVALID_INPUT;
     Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
-    if(!groupPair)
+    if(!groupPair || groupPair->data().isEmpty())
         return StatusType::FAILURE;
     Genre genre = groupPair->data().getFavoriteGenre();
-    return m_genreMovies[(int)genre].select(m_genreMovies[(int)genre].size())->data().getMovieId();
+    if(m_genreMovies[(int)genre].empty())
+        return StatusType::FAILURE;
+    return m_genreMovies[(int)genre].select(1)->data().getMovieId();
 }
-
-
