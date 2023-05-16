@@ -17,7 +17,7 @@ public:
     MovieWatcher& operator=(const MovieWatcher& movieWatcher) = default;
 
     virtual void watchMovie(Movie& movie);
-
+    virtual StatusType destroy() = 0;
     virtual int getId() const;
     bool isEmpty() const;
     virtual bool isVip() const;
@@ -29,7 +29,7 @@ protected:
     virtual StatusType remove(MovieWatcher* toBeRemoved) = 0;
 
     int m_Id;
-    bool m_isVip;
+    int m_isVip;
     int m_watchHistory[NUM_OF_GENRE];
     int m_groupWatchHistory[NUM_OF_GENRE];
     int m_size;

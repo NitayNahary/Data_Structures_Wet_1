@@ -14,8 +14,8 @@ StatusType Group::insert(User& user){
     if(result != StatusType::SUCCESS)
         return result;
     m_size++;
-    if(!m_isVip && user.isVip())
-        m_isVip = true;
+    if((user.isVip()))
+        m_isVip++;
     const int* userViews = user.getAllViewsArr();
     for(int i = 0; i < (int)Genre::NONE; i++){
         m_groupWatchHistory[i] += userViews[i];
@@ -54,14 +54,15 @@ void Group::watchMovie(Movie &movie) {
 int Group::getViewsGenre(Genre genre) const {
     return m_watchHistory[(int)genre];
 }
-StatusType Group::deleteGroup(){
+StatusType Group::destroy(){
     if(m_size == 0)
         return StatusType::SUCCESS;
     Pair<User*, int>** userArr = nullptr;
     if(!m_members.inOrderScanToArray(userArr))
         return StatusType::ALLOCATION_ERROR;
     StatusType flag = StatusType::SUCCESS;
-    for(int i = 0; i< m_size && flag == StatusType::SUCCESS; i++){
+    int memebersNum = m_size;
+    for(int i = 0; i< memebersNum && flag == StatusType::SUCCESS; i++){
         flag = remove(userArr[i]->data());
     }
     delete[] userArr;
@@ -80,12 +81,7 @@ StatusType Group::remove(MovieWatcher *toBeRemoved) {
     for(int i = 0; i < NUM_OF_GENRE; i++) {
         m_groupWatchHistory[i] -= userViews[i];
     }
+    m_isVip-=toBeRemoved->isVip();
     m_size--;
     return flag;
 }
-
-Group::~Group() {
-    deleteGroup();
-}
-
-

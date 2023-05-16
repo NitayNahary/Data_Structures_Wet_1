@@ -33,7 +33,7 @@ int main()
     std::string op;
     std::ifstream nameFilein;
     std::string inputName, outputName;
-    for(int i = 19; i < 20; i++) {
+    for(int i = 175; i < 176; i++) {
         streaming_database *obj = new streaming_database();
         inputName = "Testing/inFiles/test" + to_string(i) + ".in";
         outputName = "Testing/result_outFiles/test_result" + to_string(i) + ".txt";

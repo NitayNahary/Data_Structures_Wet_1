@@ -13,7 +13,7 @@ class User;
 class Group : public MovieWatcher{
 public:
     Group(int groupId);
-    virtual ~Group() override;
+    virtual ~Group() override = default;
     Group(const Group& group) = default;
     Group& operator=(const Group& group) = default;
 
@@ -23,7 +23,7 @@ public:
 
     virtual Genre getFavoriteGenre() const;
     virtual int getViewsGenre(Genre genre) const override;
-    StatusType deleteGroup();
+    StatusType destroy() override;
 
 protected:
     virtual StatusType remove(MovieWatcher* toBeRemoved) override;

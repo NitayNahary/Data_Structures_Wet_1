@@ -50,6 +50,12 @@ StatusType streaming_database::remove_user(int userId)
 {
     if(userId <= 0)
         return StatusType::INVALID_INPUT;
+    Pair<User,int>* userPair = m_userTreeByID.find(userId);
+    if(!userPair)
+        return StatusType::FAILURE;
+    StatusType res = userPair->data().destroy();
+    if(res != StatusType::SUCCESS)
+        return res;
     return m_userTreeByID.remove(userId);
 }
 
@@ -67,7 +73,7 @@ StatusType streaming_database::remove_group(int groupId)
     Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
     if(!groupPair)
         return StatusType::FAILURE;
-    StatusType res = groupPair->data().deleteGroup();
+    StatusType res = groupPair->data().destroy();
     if(res != StatusType::SUCCESS)
         return res;
     return m_groupTreeByID.remove(groupId);

@@ -11,14 +11,13 @@ class Group;
 class User : public MovieWatcher{
 public:
     User(int userId, bool isVip);
-    ~User() override;
+    ~User() override = default;
     User(const User& user) = default;
     User& operator=(const User& user) = default;
-
+    StatusType destroy() override;
     virtual void watchMovie(Movie& movie) override;
 
     bool setGroup(Group* group);
-    const int * getAndUpdateAllViews();
     bool isInGroup() const;
     int getViewsGenre(Genre genre) const override;
 protected:

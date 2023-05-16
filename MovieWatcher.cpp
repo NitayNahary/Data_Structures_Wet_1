@@ -4,7 +4,7 @@
 
 #include "MovieWatcher.h"
 
-MovieWatcher::MovieWatcher(int userId) : m_Id(userId), m_isVip(false), m_watchHistory(), m_groupWatchHistory(), m_size(0){
+MovieWatcher::MovieWatcher(int userId) : m_Id(userId), m_isVip(0), m_watchHistory(), m_groupWatchHistory(), m_size(0){
     for(int i = 0; i < NUM_OF_GENRE; i++){
         m_watchHistory[i] = 0;
         m_groupWatchHistory[i] = 0;
