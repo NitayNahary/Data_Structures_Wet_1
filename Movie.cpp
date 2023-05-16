@@ -26,7 +26,7 @@ bool Movie::isVipOnly() const {
 }
 
 double Movie::getRating() const {
-    return (double)m_rating / (double)m_numOfReaters;
+    return m_numOfReaters == 0 ? 0 : (double)m_rating / (double)m_numOfReaters;
 }
 
 void Movie::addRating(int rating) {
@@ -41,23 +41,21 @@ void Movie::addWatch(int numOfWatch) {
 bool operator>(const Movie& movie1, const Movie& movie2){
     if(movie1.getRating() < movie2.getRating())
         return true;
-    else if(movie1.getRating() > movie2.getRating())
-        return false;
-    else{
-        if(movie1.getMovieViews() < movie2.getMovieViews())
+    else if(movie1.getRating() == movie2.getRating()) {
+        if (movie1.getMovieViews() < movie2.getMovieViews())
             return true;
-        else if(movie1.getMovieViews() > movie2.getMovieViews())
-            return false;
-        else{
-            if(movie1.m_movieId > movie2.m_movieId)
+        else if (movie1.getMovieViews() == movie2.getMovieViews()){
+            if (movie1.m_movieId > movie2.m_movieId)
                 return true;
-            return false;
         }
     }
+    return false;
 }
 
+
 bool operator==(const Movie& movie1, const Movie& movie2){
-    return movie1.m_movieId == movie2.m_movieId;
+    return ((movie1.m_movieId == movie2.m_movieId) && (movie1.m_genre == movie2.m_genre) && (movie1.m_vipOnly == movie2.m_vipOnly)
+            && (movie1.m_views == movie2.m_views) && (movie1.m_rating == movie2.m_rating) && (movie1.m_numOfReaters == movie2.m_numOfReaters));
 }
 
 bool Movie::operator>=(const Movie& movie2) const{

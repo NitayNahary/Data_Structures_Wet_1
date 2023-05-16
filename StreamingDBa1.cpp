@@ -25,7 +25,6 @@ StatusType streaming_database::add_movie(int movieId, Genre genre, int views, bo
 
 StatusType streaming_database::remove_movie(int movieId)
 {
-
     if(movieId <= 0)
         return StatusType::INVALID_INPUT;
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
@@ -34,7 +33,7 @@ StatusType streaming_database::remove_movie(int movieId)
     StatusType flag =  m_genreMovies[(int)Genre::NONE].remove(moviePair->data());
     if(flag != StatusType::SUCCESS)
         return flag;
-    flag = m_genreMovies[(int)moviePair->data().getMovieGenre()].remove(moviePair->data());
+    flag = m_genreMovies[(int)(moviePair->data().getMovieGenre())].remove(moviePair->data());
     if(flag != StatusType::SUCCESS)
         return flag;
     return m_moviesByID.remove(movieId);
@@ -91,20 +90,20 @@ StatusType streaming_database::user_watch(int userId, int movieId)
         return StatusType::INVALID_INPUT;
     Pair<User,int>* userPair = m_userTreeByID.find(userId);
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
-
     if(!userPair || !moviePair || (!userPair->data().isVip() && moviePair->data().isVipOnly()))
         return StatusType::FAILURE;
+
     Movie movie = moviePair->data();
     int movieGenre = (int)moviePair->data().getMovieGenre();
-    userPair->data().watchMovie(moviePair->data());
     StatusType resFlag;
     resFlag = m_genreMovies[movieGenre].remove(movie);
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
-    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
+    resFlag =m_genreMovies[(int)Genre::NONE].remove(movie);
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
-    resFlag =m_genreMovies[(int)Genre::NONE].remove(movie);
+    userPair->data().watchMovie(moviePair->data());
+    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
     return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
@@ -121,15 +120,15 @@ StatusType streaming_database::group_watch(int groupId,int movieId)
         return StatusType::FAILURE;
     int movieGenre = (int)moviePair->data().getMovieGenre();
     Movie movie = moviePair->data();
-    groupPair->data().watchMovie(moviePair->data());
     StatusType resFlag;
     resFlag = m_genreMovies[movieGenre].remove(movie);
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
-    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
+    resFlag = m_genreMovies[(int)Genre::NONE].remove(movie);
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
-    resFlag = m_genreMovies[(int)Genre::NONE].remove(movie);
+    groupPair->data().watchMovie(moviePair->data());
+    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
     return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
@@ -175,8 +174,19 @@ StatusType streaming_database::rate_movie(int userId, int movieId, int rating)
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
     if(!userPair || !moviePair || (!userPair->data().isVip() && moviePair->data().isVipOnly()))
         return StatusType::FAILURE;
+    StatusType resFlag;
+    int movieGenre = (int)moviePair->data().getMovieGenre();
+    resFlag = m_genreMovies[movieGenre].remove(moviePair->data());
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    resFlag = m_genreMovies[(int)Genre::NONE].remove(moviePair->data());
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
     moviePair->data().addRating(rating);
-    return StatusType::SUCCESS;
+    resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
+    if(resFlag != StatusType::SUCCESS)
+        return resFlag;
+    return  m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
 output_t<int> streaming_database::get_group_recommendation(int groupId)

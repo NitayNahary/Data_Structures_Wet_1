@@ -13,7 +13,6 @@
 #include "StreamingDBa1.h"
 #include <string>
 #include <iostream>
-#include <sstream>
 #include <fstream>
 
 using namespace std;
@@ -34,10 +33,10 @@ int main()
     std::string op;
     std::ifstream nameFilein;
     std::string inputName, outputName;
-    for(int i = 1; i < 500; i++) {
+    for(int i = 19; i < 20; i++) {
         streaming_database *obj = new streaming_database();
         inputName = "Testing/inFiles/test" + to_string(i) + ".in";
-        outputName = "Testing/outFiles/test_result" + to_string(i) + ".txt";
+        outputName = "Testing/result_outFiles/test_result" + to_string(i) + ".txt";
         nameFilein.open(inputName);
         cout << i<< endl;
         std::ofstream nameFileout(outputName);
