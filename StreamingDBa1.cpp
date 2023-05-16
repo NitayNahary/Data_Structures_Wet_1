@@ -1,7 +1,7 @@
 #include "StreamingDBa1.h"
 
 
-streaming_database::streaming_database() :  m_moviesByID(), m_userTreeByID(),m_groupTreeByID(), m_genreMovies(){}
+streaming_database::streaming_database() :  m_moviesByID(),m_groupTreeByID(),m_userTreeByID(), m_genreMovies(){}
 
 StatusType streaming_database::add_movie(int movieId, Genre genre, int views, bool vipOnly)
 {
@@ -65,7 +65,10 @@ StatusType streaming_database::remove_group(int groupId)
 {
     if(groupId <= 0)
         return StatusType::INVALID_INPUT;
-    StatusType res = m_groupTreeByID.find(groupId)->data().deleteGroup();
+    Pair<Group,int>* groupPair = m_groupTreeByID.find(groupId);
+    if(!groupPair)
+        return StatusType::FAILURE;
+    StatusType res = groupPair->data().deleteGroup();
     if(res != StatusType::SUCCESS)
         return res;
     return m_groupTreeByID.remove(groupId);
