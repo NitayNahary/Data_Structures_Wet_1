@@ -1,9 +1,9 @@
 //
 // Created by user on 07/05/2023.
 //
-#include "wet1util.h"
 #ifndef DATA_STRUCTURES_WET_1_MOVIE_H
 #define DATA_STRUCTURES_WET_1_MOVIE_H
+#include "wet1util.h"
 
 class Movie{
 
@@ -22,6 +22,10 @@ public:
     void addWatch(int numOfWatch);
     friend bool operator>(const Movie& movie1, const Movie& movie2);
     friend bool operator==(const Movie& movie1, const Movie& movie2);
+    bool operator>=(const Movie& movie2) const;
+    bool operator<(const Movie& movie2) const;
+    bool operator<=(const Movie& movie2) const;
+    bool operator!=(const Movie& movie2) const;
 
 private:
     int m_movieId;
@@ -33,16 +37,5 @@ private:
 };
 
 
-static bool operator>=(const Movie& movie1, const Movie& movie2){
-    return ((movie1 > movie2) || (movie1 == movie2));
-}
-static bool operator<(const Movie& movie1, const Movie& movie2){
-    return (!(movie1>=movie2));
-}
-static bool operator<=(const Movie& movie1, const Movie& movie2){
-    return ((movie1 < movie2) || (movie1 == movie2));
-}
-static bool operator!=(const Movie& movie1, const Movie& movie2){
-    return !(movie1 == movie2);
-}
+
 #endif //DATA_STRUCTURES_WET_1_MOVIE_H

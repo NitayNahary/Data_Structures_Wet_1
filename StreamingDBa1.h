@@ -14,7 +14,6 @@
 
 #ifndef STREAMINGDBA1_H_
 #define STREAMINGDBA1_H_
-#define G 5
 #include "AVL_MAP.h"
 #include "Movie.h"
 #include "AVL_MAP.h"

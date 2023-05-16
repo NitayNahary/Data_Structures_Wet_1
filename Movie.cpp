@@ -59,3 +59,16 @@ bool operator>(const Movie& movie1, const Movie& movie2){
 bool operator==(const Movie& movie1, const Movie& movie2){
     return movie1.m_movieId == movie2.m_movieId;
 }
+
+bool Movie::operator>=(const Movie& movie2) const{
+    return ((*this > movie2) || (*this == movie2));
+}
+bool Movie::operator<(const Movie& movie2) const{
+    return (!(*this>=movie2));
+}
+bool Movie::operator<=(const Movie& movie2) const{
+    return ((*this < movie2) || (*this == movie2));
+}
+bool Movie::operator!=(const Movie& movie2) const{
+    return !(*this == movie2);
+}

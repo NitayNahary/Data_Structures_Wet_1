@@ -1,7 +1,7 @@
 #include "StreamingDBa1.h"
 
 
-streaming_database::streaming_database() :  m_moviesByID(), m_genreMovies(),m_userTreeByID(),m_groupTreeByID(){}
+streaming_database::streaming_database() :  m_moviesByID(), m_userTreeByID(),m_groupTreeByID(), m_genreMovies(){}
 
 StatusType streaming_database::add_movie(int movieId, Genre genre, int views, bool vipOnly)
 {
