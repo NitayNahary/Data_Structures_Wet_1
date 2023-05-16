@@ -61,20 +61,15 @@ StatusType Group::destroy(){
     if(!m_members.inOrderScanToArray(userArr))
         return StatusType::ALLOCATION_ERROR;
     StatusType flag = StatusType::SUCCESS;
-    int memebersNum = m_size;
-    for(int i = 0; i< memebersNum && flag == StatusType::SUCCESS; i++){
-        flag = remove(userArr[i]->data());
+    for(int i = 0; i< m_size && flag == StatusType::SUCCESS; i++){
+        flag = updateOnRemove(userArr[i]->data());
     }
     delete[] userArr;
     return flag;
 }
-
-StatusType Group::remove(MovieWatcher *toBeRemoved) {
+StatusType Group::updateOnRemove(MovieWatcher *toBeRemoved){
     StatusType flag;
     flag = remover(toBeRemoved);
-    if(flag != StatusType::SUCCESS)
-        return flag;
-    flag = m_members.remove(toBeRemoved->getId());
     if(flag != StatusType::SUCCESS)
         return flag;
     const int* userViews = toBeRemoved->getAllViewsArr();
@@ -82,6 +77,17 @@ StatusType Group::remove(MovieWatcher *toBeRemoved) {
         m_groupWatchHistory[i] -= userViews[i];
     }
     m_isVip-=toBeRemoved->isVip();
-    m_size--;
     return flag;
+}
+
+StatusType Group::remove(MovieWatcher *toBeRemoved) {
+    StatusType flag;
+    flag = updateOnRemove(toBeRemoved);
+    if(flag != StatusType::SUCCESS)
+        return flag;
+    flag = m_members.remove(toBeRemoved->getId());
+    if(flag != StatusType::SUCCESS)
+        return flag;
+    m_size--;
+    return StatusType::SUCCESS;
 }

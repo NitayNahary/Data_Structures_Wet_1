@@ -29,7 +29,8 @@ protected:
     virtual StatusType remove(MovieWatcher* toBeRemoved) override;
 private:
     AVLTree <User*,int> m_members;
-};
+    StatusType updateOnRemove(MovieWatcher *toBeRemoved);
+    };
 
 
 #endif //DATA_STRUCTURES_WET_1_GROUP_H
