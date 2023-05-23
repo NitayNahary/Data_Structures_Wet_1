@@ -27,6 +27,7 @@ private:
     AVLTree<Group, int> m_groupTreeByID;
     AVLTree<User, int> m_userTreeByID;
     AVLTree<Movie, Movie> m_genreMovies[NUM_OF_GENRE];
+    int m_genreHotMovies[NUM_OF_GENRE];
 
 
         public:

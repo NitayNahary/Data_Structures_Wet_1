@@ -20,6 +20,8 @@ StatusType streaming_database::add_movie(int movieId, Genre genre, int views, bo
     }else{
         m_moviesByID.remove(movieId);
     }
+    if(!m_genreMovies[(int)genre].empty())
+        m_genreHotMovies[(int)genre] = m_genreMovies[(int)genre].select(1)->data().getMovieId();
     return StatusType::SUCCESS;
 }
 
@@ -30,12 +32,15 @@ StatusType streaming_database::remove_movie(int movieId)
     Pair<Movie,int>* moviePair = m_moviesByID.find(movieId);
     if(!moviePair)
         return StatusType::FAILURE;
+    int genre = (int)(moviePair->data().getMovieGenre());
     StatusType flag =  m_genreMovies[(int)Genre::NONE].remove(moviePair->data());
     if(flag != StatusType::SUCCESS)
         return flag;
-    flag = m_genreMovies[(int)(moviePair->data().getMovieGenre())].remove(moviePair->data());
+    flag = m_genreMovies[genre].remove(moviePair->data());
     if(flag != StatusType::SUCCESS)
         return flag;
+    if(!m_genreMovies[genre].empty())
+        m_genreHotMovies[genre] = m_genreMovies[genre].select(1)->data().getMovieId();
     return m_moviesByID.remove(movieId);
 }
 
@@ -112,6 +117,8 @@ StatusType streaming_database::user_watch(int userId, int movieId)
     resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
+    if(!m_genreMovies[movieGenre].empty())
+        m_genreHotMovies[movieGenre] = m_genreMovies[movieGenre].select(1)->data().getMovieId();
     return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
@@ -137,6 +144,8 @@ StatusType streaming_database::group_watch(int groupId,int movieId)
     resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
+    if(!m_genreMovies[movieGenre].empty())
+        m_genreHotMovies[movieGenre] = m_genreMovies[movieGenre].select(1)->data().getMovieId();
     return m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
@@ -205,5 +214,5 @@ output_t<int> streaming_database::get_group_recommendation(int groupId)
     Genre genre = groupPair->data().getFavoriteGenre();
     if(m_genreMovies[(int)genre].empty())
         return StatusType::FAILURE;
-    return m_genreMovies[(int)genre].select(1)->data().getMovieId();
+    return m_genreHotMovies[(int)genre];
 }
