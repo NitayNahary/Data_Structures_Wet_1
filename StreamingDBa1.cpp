@@ -201,6 +201,8 @@ StatusType streaming_database::rate_movie(int userId, int movieId, int rating)
     resFlag = m_genreMovies[movieGenre].insert(moviePair->data(),moviePair->data());
     if(resFlag != StatusType::SUCCESS)
         return resFlag;
+    if(!m_genreMovies[movieGenre].empty())
+        m_genreHotMovies[movieGenre] = m_genreMovies[movieGenre].select(1)->data().getMovieId();
     return  m_genreMovies[(int)Genre::NONE].insert(moviePair->data(),moviePair->data());
 }
 
